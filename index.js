@@ -1,4 +1,4 @@
-const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+const slugify = (s, e) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
 
 const position = {
   false: 'push',
@@ -54,6 +54,7 @@ const anchor = (md, opts) => {
   md.core.ruler.push('anchor', state => {
     const slugs = {}
     const tokens = state.tokens
+    const env = state.env
 
     const isLevelSelected = Array.isArray(opts.level)
       ? isLevelSelectedArray(opts.level)
@@ -72,7 +73,7 @@ const anchor = (md, opts) => {
         let slug = token.attrGet('id')
 
         if (slug == null) {
-          slug = uniqueSlug(opts.slugify(title), slugs, false)
+          slug = uniqueSlug(opts.slugify(title, env), slugs, false)
         } else {
           slug = uniqueSlug(slug, slugs, true)
         }
